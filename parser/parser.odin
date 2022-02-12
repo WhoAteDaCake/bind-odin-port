@@ -9,6 +9,11 @@ import "core:runtime"
 
 import "../types"
 
+ParserContext :: struct {
+    allocator: ^runtime.Allocator,
+    types: [dynamic]^types.Type,
+}
+
 cursor_kind_name :: proc (kind: clang.CXCursorKind) -> string {
     spelling := clang.getCursorKindSpelling(kind)
     return string(clang.getCString(spelling))
@@ -74,23 +79,23 @@ type_ :: proc(t: clang.CXType) -> ^types.Type {
     return output
 }
 
-visit_typedef :: proc(cursor: clang.CXCursor) -> ^types.Typedef {
-    // cursor_kind_name(cursor.kind)
-    // spelling := clang_getCursorSpelling
+visit_typedef :: proc(cursor: clang.CXCursor) -> types.Typedef {
     output := new(types.Typedef)
     t := clang.getTypedefDeclUnderlyingType(cursor)
-    output.base = type_(t)
-    output.name = type_spelling(t)
-    cached_cursors[clang.hashCursor(cursor)] = output.base
-    return output
+    base := type_(t)
+    name := type_spelling(t)
+    cached_cursors[clang.hashCursor(cursor)] = base
+    return types.Typedef{name,base}
 }
 
-visit :: proc (cursor: clang.CXCursor) {
+visit :: proc (cursor: clang.CXCursor) ->^types.Type {
+    output := new(types.Type)
     #partial switch cursor.kind {
         case .CXCursor_TypedefDecl: {
-            visit_typedef(cursor)
+            output.variant = visit_typedef(cursor)
         }
     }
+    return output
 }
 
 visitor :: proc "c" (
@@ -99,11 +104,15 @@ visitor :: proc "c" (
     client_data: clang.CXClientData,
 ) -> clang.CXChildVisitResult {
     c := runtime.default_context()
-    allocator := cast(^runtime.Allocator) client_data
-    c.allocator = allocator^
+    ctx := (cast(^ParserContext) client_data)^
+    c.allocator = ctx.allocator^
     context = c
+    //
+    t := visit(cursor)
+    append(&ctx.types, t)
+    append(&ctx.types, &types.Type{"", types.Va_Arg{}})
 
-    visit(cursor)
+    fmt.println(len(ctx.types))
 
     return clang.CXChildVisitResult.CXChildVisit_Continue;
 }
@@ -156,5 +165,12 @@ main :: proc() {
     }
     cursor := clang.getTranslationUnitCursor(tu)
     allocator := context.allocator
-    clang.visitChildren(cursor, visitor, &allocator)
+    ctx := ParserContext{&allocator,make([dynamic]^types.Type)}
+    
+    clang.visitChildren(cursor, visitor, &ctx)
+
+    fmt.println(len(ctx.types))
+    // for entry in ctx.types {
+    //     fmt.println(entry)
+    // }
 }
