@@ -104,16 +104,13 @@ visitor :: proc "c" (
     client_data: clang.CXClientData,
 ) -> clang.CXChildVisitResult {
     c := runtime.default_context()
-    ctx := (cast(^ParserContext) client_data)^
+    ctx := (^ParserContext)(client_data)
     c.allocator = ctx.allocator^
     context = c
     //
     t := visit(cursor)
     append(&ctx.types, t)
-    append(&ctx.types, &types.Type{"", types.Va_Arg{}})
-
-    fmt.println(len(ctx.types))
-
+    
     return clang.CXChildVisitResult.CXChildVisit_Continue;
 }
 
