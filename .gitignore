@@ -6,3 +6,4 @@ temp/
 test/*
 !test/main.odin
 !test/find_vs.dll
+dist

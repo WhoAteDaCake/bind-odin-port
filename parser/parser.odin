@@ -7,11 +7,90 @@ import "core:fmt"
 import "core:os"
 import "core:runtime"
 
+import "../types"
+
 cursor_kind_name :: proc (kind: clang.CXCursorKind) -> string {
     spelling := clang.getCursorKindSpelling(kind)
-    defer clang.disposeString(spelling)
-
     return string(clang.getCString(spelling))
+}
+
+type_spelling :: proc (t: clang.CXType) -> string {
+    spelling := clang.getTypeSpelling(t)
+    return string(clang.getCString(spelling))
+}
+
+kind_spelling :: proc (t: clang.CXTypeKind) -> string {
+    spelling := clang.getTypeKindSpelling(t)
+    return string(clang.getCString(spelling))
+}
+
+cached_cursors := make(map[u32]^types.Type);
+
+build_function_type :: proc(t: clang.CXType) -> types.Func {
+    output := types.Func{}
+    // TODO: restrict to FunctionProto, FunctionNoProto
+    output.ret = type_(clang.getResultType(t))
+    n := cast(u32) clang.getNumArgTypes(t)
+    output.params = make([]^types.Type, n)
+    for i in 0..(n - 1) {
+        output.params[i] = type_(clang.getArgType(t, i))
+    }
+    return output
+}
+
+build_ptr_type :: proc(t: clang.CXType) -> types.Pointer {
+    return types.Pointer{type_(clang.getPointeeType(t))}
+}
+
+type_ :: proc(t: clang.CXType) -> ^types.Type {
+    output := new(types.Type)
+    // fmt.println(type_spelling(t))
+    // output.name = 
+    #partial switch t.kind {
+        case .CXType_FunctionProto: {
+            output.variant = build_function_type(t)
+        }
+        // Check if I need to handle special case for function pointers
+        case .CXType_Pointer: {
+            output.variant = build_ptr_type(t)
+        }
+        case .CXType_Void: {
+            output.variant = types.Primitive{types.Primitive_Kind.void}
+        }
+        case .CXType_Char_S: {
+            output.variant = types.Primitive{types.Primitive_Kind.schar}
+        }
+        case .CXType_Int: {
+            output.variant = types.Primitive{types.Primitive_Kind.int}
+        }
+        case .CXType_Elaborated: {
+            cursor := clang.getTypeDeclaration(t)
+            // Free previous data
+            found := cached_cursors[clang.hashCursor(cursor)]
+            output.variant = types.Node_Ref{found}
+        }
+        case: fmt.println(t.kind)
+    }
+    return output
+}
+
+visit_typedef :: proc(cursor: clang.CXCursor) -> ^types.Typedef {
+    // cursor_kind_name(cursor.kind)
+    // spelling := clang_getCursorSpelling
+    output := new(types.Typedef)
+    t := clang.getTypedefDeclUnderlyingType(cursor)
+    output.base = type_(t)
+    output.name = type_spelling(t)
+    cached_cursors[clang.hashCursor(cursor)] = output.base
+    return output
+}
+
+visit :: proc (cursor: clang.CXCursor) {
+    #partial switch cursor.kind {
+        case .CXCursor_TypedefDecl: {
+            visit_typedef(cursor)
+        }
+    }
 }
 
 visitor :: proc "c" (
@@ -24,11 +103,7 @@ visitor :: proc "c" (
     c.allocator = allocator^
     context = c
 
-    fmt.println(cursor)
-    // name := cursor_kind_name(cursor.kind)
-    // defer delete(name)
-
-    // fmt.println(name)
+    visit(cursor)
 
     return clang.CXChildVisitResult.CXChildVisit_Continue;
 }

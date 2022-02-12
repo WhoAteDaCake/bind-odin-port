@@ -1,0 +1,388 @@
+{
+  "id": "0x21e5778",
+  "kind": "TranslationUnitDecl",
+  "loc": {},
+  "range": {
+    "begin": {},
+    "end": {}
+  },
+  "inner": [
+    {
+      "id": "0x21e6010",
+      "kind": "TypedefDecl",
+      "loc": {},
+      "range": {
+        "begin": {},
+        "end": {}
+      },
+      "isImplicit": true,
+      "name": "__int128_t",
+      "type": {
+        "qualType": "__int128"
+      },
+      "inner": [
+        {
+          "id": "0x21e5d10",
+          "kind": "BuiltinType",
+          "type": {
+            "qualType": "__int128"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0x21e6080",
+      "kind": "TypedefDecl",
+      "loc": {},
+      "range": {
+        "begin": {},
+        "end": {}
+      },
+      "isImplicit": true,
+      "name": "__uint128_t",
+      "type": {
+        "qualType": "unsigned __int128"
+      },
+      "inner": [
+        {
+          "id": "0x21e5d30",
+          "kind": "BuiltinType",
+          "type": {
+            "qualType": "unsigned __int128"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0x21e6388",
+      "kind": "TypedefDecl",
+      "loc": {},
+      "range": {
+        "begin": {},
+        "end": {}
+      },
+      "isImplicit": true,
+      "name": "__NSConstantString",
+      "type": {
+        "qualType": "struct __NSConstantString_tag"
+      },
+      "inner": [
+        {
+          "id": "0x21e6160",
+          "kind": "RecordType",
+          "type": {
+            "qualType": "struct __NSConstantString_tag"
+          },
+          "decl": {
+            "id": "0x21e60d8",
+            "kind": "RecordDecl",
+            "name": "__NSConstantString_tag"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0x21e6420",
+      "kind": "TypedefDecl",
+      "loc": {},
+      "range": {
+        "begin": {},
+        "end": {}
+      },
+      "isImplicit": true,
+      "name": "__builtin_ms_va_list",
+      "type": {
+        "qualType": "char *"
+      },
+      "inner": [
+        {
+          "id": "0x21e63e0",
+          "kind": "PointerType",
+          "type": {
+            "qualType": "char *"
+          },
+          "inner": [
+            {
+              "id": "0x21e5810",
+              "kind": "BuiltinType",
+              "type": {
+                "qualType": "char"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0x21e6718",
+      "kind": "TypedefDecl",
+      "loc": {},
+      "range": {
+        "begin": {},
+        "end": {}
+      },
+      "isImplicit": true,
+      "name": "__builtin_va_list",
+      "type": {
+        "qualType": "struct __va_list_tag [1]"
+      },
+      "inner": [
+        {
+          "id": "0x21e66c0",
+          "kind": "ConstantArrayType",
+          "type": {
+            "qualType": "struct __va_list_tag [1]"
+          },
+          "size": 1,
+          "inner": [
+            {
+              "id": "0x21e6500",
+              "kind": "RecordType",
+              "type": {
+                "qualType": "struct __va_list_tag"
+              },
+              "decl": {
+                "id": "0x21e6478",
+                "kind": "RecordDecl",
+                "name": "__va_list_tag"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0x2245580",
+      "kind": "TypedefDecl",
+      "loc": {
+        "offset": 170,
+        "file": "test/headers.h",
+        "line": 4,
+        "col": 13,
+        "tokLen": 22,
+        "includedFrom": {
+          "file": "test/test.c"
+        }
+      },
+      "range": {
+        "begin": {
+          "offset": 158,
+          "col": 1,
+          "tokLen": 7,
+          "includedFrom": {
+            "file": "test/test.c"
+          }
+        },
+        "end": {
+          "offset": 234,
+          "col": 77,
+          "tokLen": 1,
+          "includedFrom": {
+            "file": "test/test.c"
+          }
+        }
+      },
+      "isReferenced": true,
+      "name": "cookie_read_function_t",
+      "type": {
+        "qualType": "int (void *, char *, int)"
+      },
+      "inner": [
+        {
+          "id": "0x2245500",
+          "kind": "FunctionProtoType",
+          "type": {
+            "qualType": "int (void *, char *, int)"
+          },
+          "cc": "cdecl",
+          "inner": [
+            {
+              "id": "0x21e5870",
+              "kind": "BuiltinType",
+              "type": {
+                "qualType": "int"
+              }
+            },
+            {
+              "id": "0x21e5f90",
+              "kind": "PointerType",
+              "type": {
+                "qualType": "void *"
+              },
+              "inner": [
+                {
+                  "id": "0x21e57d0",
+                  "kind": "BuiltinType",
+                  "type": {
+                    "qualType": "void"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "0x21e63e0",
+              "kind": "PointerType",
+              "type": {
+                "qualType": "char *"
+              },
+              "inner": [
+                {
+                  "id": "0x21e5810",
+                  "kind": "BuiltinType",
+                  "type": {
+                    "qualType": "char"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "0x21e5870",
+              "kind": "BuiltinType",
+              "type": {
+                "qualType": "int"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0x22455d8",
+      "kind": "RecordDecl",
+      "loc": {
+        "offset": 252,
+        "line": 5,
+        "col": 16,
+        "tokLen": 25,
+        "includedFrom": {
+          "file": "test/test.c"
+        }
+      },
+      "range": {
+        "begin": {
+          "offset": 245,
+          "col": 9,
+          "tokLen": 6,
+          "includedFrom": {
+            "file": "test/test.c"
+          }
+        },
+        "end": {
+          "offset": 312,
+          "line": 7,
+          "col": 1,
+          "tokLen": 1,
+          "includedFrom": {
+            "file": "test/test.c"
+          }
+        }
+      },
+      "name": "_IO_cookie_io_functions_t",
+      "tagUsed": "struct",
+      "completeDefinition": true,
+      "inner": [
+        {
+          "id": "0x2245708",
+          "kind": "FieldDecl",
+          "loc": {
+            "offset": 306,
+            "line": 6,
+            "col": 27,
+            "tokLen": 4,
+            "includedFrom": {
+              "file": "test/test.c"
+            }
+          },
+          "range": {
+            "begin": {
+              "offset": 282,
+              "col": 3,
+              "tokLen": 22,
+              "includedFrom": {
+                "file": "test/test.c"
+              }
+            },
+            "end": {
+              "offset": 306,
+              "col": 27,
+              "tokLen": 4,
+              "includedFrom": {
+                "file": "test/test.c"
+              }
+            }
+          },
+          "name": "read",
+          "type": {
+            "qualType": "cookie_read_function_t *"
+          }
+        }
+      ]
+    },
+    {
+      "id": "0x22457b8",
+      "kind": "TypedefDecl",
+      "loc": {
+        "offset": 314,
+        "line": 7,
+        "col": 3,
+        "tokLen": 21,
+        "includedFrom": {
+          "file": "test/test.c"
+        }
+      },
+      "range": {
+        "begin": {
+          "offset": 237,
+          "line": 5,
+          "col": 1,
+          "tokLen": 7,
+          "includedFrom": {
+            "file": "test/test.c"
+          }
+        },
+        "end": {
+          "offset": 314,
+          "line": 7,
+          "col": 3,
+          "tokLen": 21,
+          "includedFrom": {
+            "file": "test/test.c"
+          }
+        }
+      },
+      "name": "cookie_io_functions_t",
+      "type": {
+        "desugaredQualType": "struct _IO_cookie_io_functions_t",
+        "qualType": "struct _IO_cookie_io_functions_t"
+      },
+      "inner": [
+        {
+          "id": "0x2245760",
+          "kind": "ElaboratedType",
+          "type": {
+            "qualType": "struct _IO_cookie_io_functions_t"
+          },
+          "ownedTagDecl": {
+            "id": "0x22455d8",
+            "kind": "RecordDecl",
+            "name": "_IO_cookie_io_functions_t"
+          },
+          "inner": [
+            {
+              "id": "0x2245660",
+              "kind": "RecordType",
+              "type": {
+                "qualType": "struct _IO_cookie_io_functions_t"
+              },
+              "decl": {
+                "id": "0x22455d8",
+                "kind": "RecordDecl",
+                "name": "_IO_cookie_io_functions_t"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
